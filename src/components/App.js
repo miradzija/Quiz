@@ -12,7 +12,7 @@ import FinishScreen from "./FinishScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
 
-const SEC_PER_QUESTION = 30;
+const SEC_PER_QUESTION = 20;
 
 const initialState = {
   questions: [],
@@ -80,7 +80,9 @@ function reducer(state, action) {
       return {
         ...state,
         secondsRemaining: state.secondsRemaining - 1,
-        status: state.secondsRemaining === 0 ? "finished" : state.status,
+        status: state.secondsRemaining <= 0 ? "finished" : state.status,
+        highscore:
+          state.points > state.highscore ? state.points : state.highscore,
       };
 
     default:
@@ -142,7 +144,7 @@ export default function App() {
             </Footer>
           </>
         )}
-        {status === "finish" && (
+        {status === "finished" && (
           <FinishScreen
             points={points}
             maxPossiblePoints={maxPossiblePoints}
